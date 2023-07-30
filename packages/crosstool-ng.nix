@@ -21,6 +21,7 @@
 , ncurses
 , openssl
 , perl
+, python3
 , rsync
 , texinfo
 , unzip
@@ -61,6 +62,7 @@ stdenv.mkDerivation {
     ncurses.dev
     openssl.dev
     perl
+    python3
     rsync
     texinfo
     unzip
@@ -98,6 +100,7 @@ stdenv.mkDerivation {
           ncurses.dev
           openssl.dev
           perl
+          python3
           rsync
           texinfo
           unzip
