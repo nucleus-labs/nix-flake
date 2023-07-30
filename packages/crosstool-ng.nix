@@ -1,46 +1,96 @@
 { lib
 , stdenv
-, fetchurl
-, which
-, flex
+, fetchFromGitHub
+, makeWrapper
+
+, bc
+, binutils
 , bison
-, texinfo
-, unzip
+, cpio
+, elfutils
+, file
+, flex
+, flock
+, gcc
+, gnum4
+, gnumake
 , help2man
 , libtool
 , ncurses
-, wget
-, gnum4
-, makeWrapper
+, openssl
 , perl
+, rsync
+, texinfo
+, unzip
+, wget
+, which
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "crosstool-ng";
-  version = "1.25.0";
+  version = "1.25.0-dev";
 
-  src = fetchurl {
-    url = "http://crosstool-ng.org/download/crosstool-ng/crosstool-ng-${version}.tar.xz";
-    sha256 = "sha256-aBYvNCJDzUGJ7XwfTjuxMCyqPyy7+DMYeb0B/gbGDNM=";
+  src = fetchFromGitHub {
+    owner = "crosstool-ng";
+    repo = "crosstool-ng";
+    rev = "465207b7a21f00b94b934151c0667275d342cb56";
+    sha256 = "sha256-aBYvNCJDzUGJ7XxfTjuxMCyqPyy7+DMYeb0B/gbGDNM=";
   };
 
   nativeBuildInputs = [
-    which
-    flex
+    makeWrapper
+
+    bc
+    binutils
     bison
-    texinfo
-    unzip
+    cpio
+    elfutils.dev
+    file
+    flex
+    flock
+    gcc
+    gnum4
+    gnumake
     help2man
     libtool
     ncurses
+    ncurses.dev
+    openssl.dev
+    perl
+    rsync
+    texinfo
+    unzip
     wget
-    makeWrapper
+    which
   ];
 
   postInstall = ''
     # add runtime dependencies to build toolchain
     wrapProgram $out/bin/ct-ng \
-      --prefix PATH : ${lib.makeBinPath [ wget gnum4 which perl ]}
+      --prefix PATH : ${lib.makeBinPath [
+          bc
+          binutils
+          bison
+          cpio
+          elfutils.dev
+          file
+          flex
+          flock
+          gcc
+          gnum4
+          gnumake
+          help2man
+          libtool
+          ncurses
+          ncurses.dev
+          openssl.dev
+          perl
+          rsync
+          texinfo
+          unzip
+          wget
+          which
+        ]}
 
     ln -sr $out/bin/ct-ng $out/bin/crosstool-ng
   '';
