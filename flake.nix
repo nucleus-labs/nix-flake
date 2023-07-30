@@ -19,24 +19,28 @@
       ];
 
       perSystem = { pkgs, ... }: rec {
-        devshells.crosstool = {
-          packages = [ ];
+        devshells = rec {
+          default = crosstool;
 
-          commands = [
-            {
-              category = "tools";
-              name = "ct-ng";
-              package = packages.crosstool-ng;
-              # help = packages.crosstool-ng.meta.descripton;
-            }
-          ];
+          crosstool = {
+            packages = [ ];
 
-          env = [
-            {
-              name = "LD_LIBRARY_PATH";
-              unset = true;
-            }
-          ];
+            commands = [
+              {
+                category = "tools";
+                name = "ct-ng";
+                package = packages.crosstool-ng;
+                # help = packages.crosstool-ng.meta.descripton;
+              }
+            ];
+
+            env = [
+              {
+                name = "LD_LIBRARY_PATH";
+                unset = true;
+              }
+            ];
+          };
         };
 
         packages = {
