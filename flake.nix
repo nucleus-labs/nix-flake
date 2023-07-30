@@ -19,9 +19,8 @@
       ];
 
       perSystem = { pkgs, ... }: rec {
-        devshells.default = {
-          packages = [
-          ];
+        devshells.crosstool = {
+          packages = [ ];
 
           commands = [
             {
