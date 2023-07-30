@@ -8,12 +8,16 @@
 , bc
 , binutils
 , bison
+, bzip2
 , cpio
+, curl
 , elfutils
 , file
 , flex
 , flock
+, gawk
 , gcc
+, git
 , gnum4
 , gnumake
 , help2man
@@ -23,6 +27,7 @@
 , perl
 , python3
 , rsync
+, subversion
 , texinfo
 , unzip
 , wget
@@ -48,12 +53,16 @@ stdenv.mkDerivation {
     bc
     binutils
     bison
+    bzip2
     cpio
+    curl
     elfutils.dev
     file
     flex
     flock
+    gawk
     gcc
+    git
     gnum4
     gnumake
     help2man
@@ -64,6 +73,7 @@ stdenv.mkDerivation {
     perl
     python3
     rsync
+    subversion
     texinfo
     unzip
     wget
@@ -83,15 +93,20 @@ stdenv.mkDerivation {
       --prefix PATH : ${lib.makeBinPath [
           autoconf
           automake
+
           bc
           binutils
           bison
+          bzip2
           cpio
+          curl
           elfutils.dev
           file
           flex
           flock
+          gawk
           gcc
+          git
           gnum4
           gnumake
           help2man
@@ -102,6 +117,7 @@ stdenv.mkDerivation {
           perl
           python3
           rsync
+          subversion
           texinfo
           unzip
           wget
