@@ -31,6 +31,13 @@
               # help = packages.crosstool-ng.meta.descripton;
             }
           ];
+
+          env = [
+            {
+              name = "LD_LIBRARY_PATH";
+              unset = true;
+            }
+          ];
         };
 
         packages = {
