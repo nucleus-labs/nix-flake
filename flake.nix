@@ -26,7 +26,7 @@
           commands = [
             {
               category = "tools";
-              command = "ct-ng";
+              name = "ct-ng";
               package = packages.crosstool-ng;
               # help = packages.crosstool-ng.meta.descripton;
             }
