@@ -25,7 +25,7 @@
 , ncurses
 , openssl
 , perl
-, python3
+, python310Full
 , rsync
 , subversion
 , texinfo
@@ -34,7 +34,7 @@
 , which
 }:
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "crosstool-ng";
   version = "1.25.0+git+465207b7";
 
@@ -42,87 +42,71 @@ stdenv.mkDerivation {
     owner = "crosstool-ng";
     repo = "crosstool-ng";
     rev = "465207b7a21f00b94b934151c0667275d342cb56";
-    sha256 = "sha256-bkw8w+oAGaHo3hwb3mWe3tpjrJ3HtT4rLhwXy5WpQcQ=";
+    leaveDotGit = true;
+    sha256 = "sha256-vXAPyZCFnyhO0CuV3UwarhEud2NX9tdd4EwD+gLvDsM=";
   };
 
-  nativeBuildInputs = [
-    makeWrapper
+  docs = fetchFromGitHub {
+    owner = "crosstool-ng";
+    repo = "crosstool-ng.github.io";
+    rev = "cfff4f1a20e347b9dfe6983e00d08020513367ec";
+    leaveDotGit = true;
+    sha256 = "sha256-DbVw5d4AcZ6cyaPKyHt4QXf4jBGDcULaKJJUBK9n5uI=";
+  };
+
+  buildInputs = [
     autoconf
     automake
 
-    bc
     binutils
     bison
+    elfutils.dev
+    gcc
+    gnumake
+    libtool
+    ncurses.dev
+    openssl.dev
+    python310Full
+    texinfo
+  ];
+
+  nativeBuildInputs = [
+    makeWrapper
+
+    bc
     bzip2
     cpio
     curl
-    elfutils.dev
     file
     flex
     flock
     gawk
-    gcc
     git
     gnum4
-    gnumake
     help2man
-    libtool
     ncurses
-    ncurses.dev
-    openssl.dev
     perl
-    python3
     rsync
     subversion
-    texinfo
     unzip
     wget
     which
   ];
 
-  buildPhase = ''
+  preConfigure = ''
+    echo ${version} > .tarball-version
     bash ./bootstrap
-    ./configure --prefix=$out
-    make
-    make DESTDIR=$out install
   '';
 
-  postInstall = ''
-    # add runtime dependencies to build toolchain
+  fixupPhase = ''
+    # add runtime dependencies for the build toolchain
     wrapProgram $out/bin/ct-ng \
-      --prefix PATH : ${lib.makeBinPath [
-          autoconf
-          automake
-
-          bc
-          binutils
-          bison
-          bzip2
-          cpio
-          curl
-          elfutils.dev
-          file
-          flex
-          flock
-          gawk
-          gcc
-          git
-          gnum4
-          gnumake
-          help2man
-          libtool
-          ncurses
-          ncurses.dev
-          openssl.dev
-          perl
-          python3
-          rsync
-          subversion
-          texinfo
-          unzip
-          wget
-          which
-        ]}
+      --unset LD_LIBRARY_PATH \
+      --unset CC \
+      --unset CXX \
+      --prefix PATH : ${lib.makeBinPath buildInputs} \
+      --prefix PATH : ${lib.makeBinPath nativeBuildInputs} \
+      --prefix PYTHONPATH : ${python310Full}/lib/python3.10/site-packages
 
     ln -sr $out/bin/ct-ng $out/bin/crosstool-ng
   '';
