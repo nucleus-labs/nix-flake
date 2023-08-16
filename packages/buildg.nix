@@ -2,8 +2,10 @@
   lib,
   fetchFromGitHub,
   buildGoModule,
-  rootlesskit,
   makeWrapper,
+
+  rootlesskit,
+  runc,
 }:
 
 buildGoModule rec {
@@ -21,6 +23,7 @@ buildGoModule rec {
 
   extraPath = lib.makeBinPath [
     rootlesskit
+    runc
   ];
 
   nativeBuildInputs = [
