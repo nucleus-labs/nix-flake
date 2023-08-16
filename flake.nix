@@ -3,6 +3,7 @@
 
   inputs.devshell.url = "github:numtide/devshell";
   inputs.flake-parts.url = "github:hercules-ci/flake-parts";
+  # inputs.nix-openwrt-imagebuilder.url = "github:astro/nix-openwrt-imagebuilder";
 
   outputs = inputs@{ self, flake-parts, devshell, nixpkgs }:
     flake-parts.lib.mkFlake { inherit inputs; } {
@@ -44,6 +45,7 @@
 
         packages = {
           crosstool-ng = pkgs.callPackage ./packages/crosstool-ng.nix { };
+          buildg = pkgs.callPackage ./packages/buildg.nix { };
         };
       };
     };
