@@ -19,8 +19,8 @@
       ];
 
       perSystem = { pkgs, ... }: rec {
-        devshells = rec {
-          default = crosstool-ng;
+        devshells = {
+          default = {};
 
           crosstool-ng = {
             packages = [ ];

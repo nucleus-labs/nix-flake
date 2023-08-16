@@ -43,7 +43,7 @@ stdenv.mkDerivation rec {
     repo = "crosstool-ng";
     rev = "465207b7a21f00b94b934151c0667275d342cb56";
     leaveDotGit = true;
-    sha256 = "sha256-vXAPyZCFnyhO0CuV3UwarhEud2NX9tdd4EwD+gLvDsM=";
+    sha256 = "sha256-vXAPyZCFnyhO0CxV3UwarhEud2NX9tdd4EwD+gLvDsM=";
   };
 
   docs = fetchFromGitHub {
